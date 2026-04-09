@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+#aplicacion propia
+INSTALLED_APPS = [
+   "core",
+   "productos",
+   "categorias",
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
