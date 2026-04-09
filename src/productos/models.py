@@ -15,6 +15,7 @@ class Producto(models.Model):
         HELADERA = 'HELADERA', 'Heladera'
         FREEZER = 'FREEZER', 'Freezer'
         DESPENSA = 'DESPENSA', 'Despensa'
+        BAÑO="BAÑO" ,"Baño"
 
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
