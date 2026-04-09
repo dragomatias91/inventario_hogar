@@ -25,3 +25,6 @@ class Producto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     ubicacion = models.CharField(max_length=10, choices=Ubicacion.choices)
     disponible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.nombre}"
