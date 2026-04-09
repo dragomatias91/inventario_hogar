@@ -37,10 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
-
-#aplicacion propia
-INSTALLED_APPS = [
+    
+    #aplicacion propia
    "core",
    "productos",
    "categorias",
