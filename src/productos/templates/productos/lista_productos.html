@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Productos</h1>
+
+    {% for producto in productos %}
+        <p>{{ producto.nombre }} - {{ producto.cantidad }} {{ producto.get_unidad_medida_display }} - {{ producto.ubicacion }}</p>
+    {% endfor %}
+
+{% endblock %}
