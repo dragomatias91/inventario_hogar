@@ -1,10 +1,23 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Categorías</h1>
+    <h1 class="mb-4">Categorías</h1>
 
-    {% for categoria in categorias %}
-        <p>{{ categoria.nombre }} - {{ categoria.descripcion }}</p>
-    {% endfor %}
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td>{{ categoria.nombre }}</td>
+                <td>{{ categoria.descripcion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
