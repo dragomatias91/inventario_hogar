@@ -29,3 +29,12 @@ class Producto(models.Model):
 
     def __str__(self):
         return f"{self.nombre}"
+    
+
+class ListaCompras(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad_necesaria = models.IntegerField()
+    comprado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.cantidad_necesaria}"
