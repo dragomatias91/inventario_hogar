@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto
+from .models import Producto ,ListaCompras
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -15,4 +15,14 @@ class ProductoForm(forms.ModelForm):
             'categoria': forms.Select(attrs={'class': 'form-select'}),
             'ubicacion': forms.Select(attrs={'class': 'form-select'}),
             'disponible': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+class ListaComprasForm(forms.ModelForm):
+    class Meta:
+        model = ListaCompras
+        fields = ['producto', 'cantidad_necesaria', 'comprado']
+        widgets = {
+            'producto': forms.Select(attrs={'class': 'form-select'}),
+            'cantidad_necesaria': forms.NumberInput(attrs={'class': 'form-control'}),
+            'comprado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

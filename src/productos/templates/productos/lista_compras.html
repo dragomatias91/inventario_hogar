@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="mb-4">Lista de Compras</h1>
+    <a href="{% url 'productos:crear_compra' %}" class="btn btn-dark mb-3">+ Agregar Ítem</a>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad necesaria</th>
+                <th>Comprado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.cantidad_necesaria }}</td>
+                <td>{% if item.comprado %}✅{% else %}❌{% endif %}</td>
+                <td>
+                    <a href="{% url 'productos:editar_compra' item.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'productos:eliminar_compra' item.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="mb-4">Eliminar ítem</h1>
+
+    <p>¿Estás seguro que querés eliminar <strong>{{ item.producto.nombre }}</strong> de la lista de compras?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'productos:lista_compras' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}
