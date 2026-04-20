@@ -9,15 +9,20 @@
             <tr>
                 <th>Nombre</th>
                 <th>Descripción</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for categoria in categorias %}
-            <tr>
-                <td>{{ categoria.nombre }}</td>
-                <td>{{ categoria.descripcion }}</td>
-            </tr>
-            {% endfor %}
+          {% for categoria in categorias %}
+          <tr>
+               <td>{{ categoria.nombre }}</td>
+               <td>{{ categoria.descripcion }}</td>
+               <td>
+                    <a href="{% url 'categorias:editar' categoria.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'categorias:eliminar' categoria.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+               </td>
+         </tr>
+{% endfor %}
         </tbody>
     </table>
 
