@@ -1,10 +1,19 @@
 from django.shortcuts import render , redirect , get_object_or_404 
 from .models import Categoria
 from .forms import CategoriaForm
+from django.db.models.functions import Lower
 
 def lista_categorias(request):
-    categorias = Categoria.objects.all()
-    return render(request, 'categorias/lista_categorias.html', {'categorias': categorias})
+    query = request.GET.get('q', '')
+    categorias = Categoria.objects.all().order_by(Lower('nombre'))
+    if query:
+        categorias = categorias.filter(nombre__icontains=query)
+    return render(request, 'categorias/lista_categorias.html', {
+        'categorias': categorias,
+        'query': query
+    })
+
+
 
 def crear_categoria(request):
     if request.method == 'POST':
