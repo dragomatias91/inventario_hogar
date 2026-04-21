@@ -1,6 +1,7 @@
-from django.shortcuts import render,redirect ,get_object_or_404
-from .models import Producto , ListaCompras
-from .forms import ProductoForm , ListaComprasForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Producto, ListaCompras
+from .forms import ProductoForm, ListaComprasForm
+from django.db import models as db_models
 
 def lista_productos(request):
     productos = Producto.objects.all()
@@ -34,10 +35,17 @@ def eliminar_producto(request, pk):
         return redirect('productos:lista')
     return render(request, 'productos/eliminar_producto.html', {'producto': producto})
 
-
 def lista_compras(request):
-    items = ListaCompras.objects.all()
-    return render(request, 'productos/lista_compras.html', {'items': items})
+    items = ListaCompras.objects.filter(comprado=False)
+    ids_en_lista = items.values_list('producto_id', flat=True)
+    stock_bajo = Producto.objects.filter(
+    cantidad=0,
+    disponible=True
+    ).exclude(id__in=ids_en_lista)
+    return render(request, 'productos/lista_compras.html', {
+        'items': items,
+        'stock_bajo': stock_bajo
+    })
 
 def crear_compra(request):
     if request.method == 'POST':
@@ -66,3 +74,17 @@ def eliminar_compra(request, pk):
         item.delete()
         return redirect('productos:lista_compras')
     return render(request, 'productos/eliminar_compra.html', {'item': item})
+
+def marcar_comprado(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        cantidad = int(request.POST.get('cantidad', 1))
+        producto.cantidad += cantidad
+        producto.save()
+        ListaCompras.objects.create(
+            producto=producto,
+            cantidad_necesaria=cantidad,
+            comprado=True
+        )
+        return redirect('productos:lista_compras')
+    return render(request, 'productos/marcar_comprado.html', {'producto': producto})

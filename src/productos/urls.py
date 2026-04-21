@@ -12,4 +12,5 @@ urlpatterns = [
     path('compras/crear/', views.crear_compra, name='crear_compra'),
     path('compras/editar/<int:pk>/', views.editar_compra, name='editar_compra'),
     path('compras/eliminar/<int:pk>/', views.eliminar_compra, name='eliminar_compra'),
+    path('compras/marcar/<int:pk>/', views.marcar_comprado, name='marcar_comprado'),
 ]

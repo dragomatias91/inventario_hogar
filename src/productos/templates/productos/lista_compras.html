@@ -25,6 +25,16 @@
                 </td>
             </tr>
             {% endfor %}
+            {% for producto in stock_bajo %}
+            <tr class="table-warning">
+                <td>{{ producto.nombre }} ⚠️</td>
+                <td>{{ producto.stock_minimo }}</td>
+                <td>❌</td>
+                <td>
+                    <a href="{% url 'productos:marcar_comprado' producto.pk %}" class="btn btn-sm btn-success">Comprado</a>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
