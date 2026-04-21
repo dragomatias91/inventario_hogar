@@ -4,8 +4,14 @@ from .forms import ProductoForm, ListaComprasForm
 from django.db import models as db_models
 
 def lista_productos(request):
+    query = request.GET.get('q', '')
     productos = Producto.objects.all()
-    return render(request, 'productos/lista_productos.html', {'productos': productos})
+    if query:
+        productos = productos.filter(nombre__icontains=query)
+    return render(request, 'productos/lista_productos.html', {
+        'productos': productos,
+        'query': query
+    })
 
 def crear_producto(request):
     if request.method == 'POST':
