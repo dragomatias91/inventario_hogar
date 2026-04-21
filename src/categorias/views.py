@@ -13,8 +13,6 @@ def lista_categorias(request):
         'query': query
     })
 
-
-
 def crear_categoria(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)

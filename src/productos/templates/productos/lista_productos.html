@@ -3,9 +3,38 @@
 {% block content %}
     <h1 class="mb-4">Productos</h1>
     <a href="{% url 'productos:crear' %}" class="btn btn-dark mb-3">+ Nuevo Producto</a>
-    <form method="GET" class="d-flex mb-3">
-        <input type="text" name="q" class="form-control me-2" placeholder="Buscar producto..." value="{{ query }}">
-        <button type="submit" class="btn btn-dark">Buscar</button>
+
+    <form method="GET" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="q" class="form-control" placeholder="Buscar producto..." value="{{ query }}">
+        </div>
+        <div class="col-md-2">
+            <select name="ubicacion" class="form-select">
+                <option value="">Todas las ubicaciones</option>
+                <option value="ALACENA" {% if ubicacion == 'ALACENA' %}selected{% endif %}>Alacena</option>
+                <option value="HELADERA" {% if ubicacion == 'HELADERA' %}selected{% endif %}>Heladera</option>
+                <option value="FREEZER" {% if ubicacion == 'FREEZER' %}selected{% endif %}>Freezer</option>
+                <option value="DESPENSA" {% if ubicacion == 'DESPENSA' %}selected{% endif %}>Despensa</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="categoria" class="form-select">
+                <option value="">Todas las categorías</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.id }}" {% if categoria == cat.id|stringformat:'s' %}selected{% endif %}>{{ cat.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="disponible" class="form-select">
+                <option value="">Todos</option>
+                <option value="True" {% if disponible == 'True' %}selected{% endif %}>Disponible</option>
+                <option value="False" {% if disponible == 'False' %}selected{% endif %}>No disponible</option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-dark w-100">Filtrar</button>
+        </div>
     </form>
 
     <table class="table table-striped table-hover">
@@ -30,8 +59,8 @@
                 <td>{{ producto.categoria }}</td>
                 <td>{% if producto.disponible %}✅{% else %}❌{% endif %}</td>
                 <td>
-                <a href="{% url 'productos:editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
-                <a href="{% url 'productos:eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    <a href="{% url 'productos:editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'productos:eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}

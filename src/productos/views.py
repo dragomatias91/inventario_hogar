@@ -2,15 +2,35 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto, ListaCompras
 from .forms import ProductoForm, ListaComprasForm
 from django.db import models as db_models
+from django.db.models.functions import Lower
 
 def lista_productos(request):
     query = request.GET.get('q', '')
-    productos = Producto.objects.all()
+    ubicacion = request.GET.get('ubicacion', '')
+    categoria = request.GET.get('categoria', '')
+    disponible = request.GET.get('disponible', '')
+
+    productos = Producto.objects.all().order_by(Lower('nombre'))
+
     if query:
         productos = productos.filter(nombre__icontains=query)
+    if ubicacion:
+        productos = productos.filter(ubicacion=ubicacion)
+    if categoria:
+        productos = productos.filter(categoria__id=categoria)
+    if disponible:
+        productos = productos.filter(disponible=disponible == 'True')
+
+    from categorias.models import Categoria as Cat
+    categorias = Cat.objects.all().order_by(Lower('nombre'))
+
     return render(request, 'productos/lista_productos.html', {
         'productos': productos,
-        'query': query
+        'query': query,
+        'categorias': categorias,
+        'ubicacion': ubicacion,
+        'categoria': categoria,
+        'disponible': disponible,
     })
 
 def crear_producto(request):
