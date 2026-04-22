@@ -2,7 +2,10 @@ from django.shortcuts import render , redirect , get_object_or_404
 from .models import Categoria
 from .forms import CategoriaForm
 from django.db.models.functions import Lower
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='accounts:login')
 def lista_categorias(request):
     query = request.GET.get('q', '')
     categorias = Categoria.objects.all().order_by(Lower('nombre'))
@@ -13,6 +16,8 @@ def lista_categorias(request):
         'query': query
     })
 
+
+@login_required(login_url='accounts:login')
 def crear_categoria(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)
@@ -23,6 +28,7 @@ def crear_categoria(request):
         form = CategoriaForm()
     return render(request, 'categorias/crear_categoria.html', {'form': form})
 
+@login_required(login_url='accounts:login')
 def editar_categoria(request, pk):
     categoria = get_object_or_404(Categoria, pk=pk)
     if request.method == 'POST':
@@ -34,6 +40,7 @@ def editar_categoria(request, pk):
         form = CategoriaForm(instance=categoria)
     return render(request, 'categorias/editar_categoria.html', {'form': form})
 
+@login_required(login_url='accounts:login')
 def eliminar_categoria(request, pk):
     categoria = get_object_or_404(Categoria, pk=pk)
     if request.method == 'POST':
