@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto, ListaCompras
 from .forms import ProductoForm, ListaComprasForm
-from django.db import models as db_models
 from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def lista_productos(request):
     query = request.GET.get('q', '')
     ubicacion = request.GET.get('ubicacion', '')
@@ -37,7 +36,7 @@ def lista_productos(request):
     })
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def crear_producto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
@@ -49,7 +48,7 @@ def crear_producto(request):
     return render(request, 'productos/crear_producto.html', {'form': form})
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def editar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -61,7 +60,7 @@ def editar_producto(request, pk):
         form = ProductoForm(instance=producto)
     return render(request, 'productos/editar_producto.html', {'form': form})
 
-@login_required(login_url='accounts:login')
+@login_required
 def eliminar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -69,7 +68,7 @@ def eliminar_producto(request, pk):
         return redirect('productos:lista')
     return render(request, 'productos/eliminar_producto.html', {'producto': producto})
 
-@login_required(login_url='accounts:login')
+@login_required
 def lista_compras(request):
     items = ListaCompras.objects.filter(comprado=False)
     ids_en_lista = items.values_list('producto_id', flat=True)
@@ -83,7 +82,7 @@ def lista_compras(request):
     })
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def crear_compra(request):
     if request.method == 'POST':
         form = ListaComprasForm(request.POST)
@@ -95,7 +94,7 @@ def crear_compra(request):
     return render(request, 'productos/crear_compra.html', {'form': form})
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def editar_compra(request, pk):
     item = get_object_or_404(ListaCompras, pk=pk)
     if request.method == 'POST':
@@ -108,7 +107,7 @@ def editar_compra(request, pk):
     return render(request, 'productos/editar_compra.html', {'form': form})
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def eliminar_compra(request, pk):
     item = get_object_or_404(ListaCompras, pk=pk)
     if request.method == 'POST':
@@ -117,7 +116,7 @@ def eliminar_compra(request, pk):
     return render(request, 'productos/eliminar_compra.html', {'item': item})
 
 
-@login_required(login_url='accounts:login')
+@login_required
 def marcar_comprado(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
